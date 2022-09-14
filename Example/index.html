@@ -8,15 +8,15 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Example Code - e-Yantra IoT Framework</title>
+        <title>Example - e-Yantra IoT Framework</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
         <script src="../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
@@ -36,23 +36,24 @@
                             <li class="navitem">
                                 <a href=".." class="nav-link">Introduction</a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Guide <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="../Spreadsheet/" class="dropdown-item">Setting up Google Spreadsheet</a>
-</li>
-                                </ul>
+                            <li class="navitem">
+                                <a href="../Requirements/" class="nav-link">Tools Required</a>
                             </li>
                             <li class="navitem">
                                 <a href="../APIs/" class="nav-link">APIs</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../config/" class="nav-link">Configure</a>
-                            </li>
-                            <li class="navitem active">
-                                <a href="./" class="nav-link">Example Code</a>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Messaging Protocols <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../Spreadsheet/" class="dropdown-item">HTTP</a>
+</li>
+                                    
+<li>
+    <a href="../MQTT/" class="dropdown-item">MQTT</a>
+</li>
+                                </ul>
                             </li>
                         </ul>
 
@@ -62,16 +63,6 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
-                            <li class="nav-item">
-                                <a rel="prev" href="../config/" class="nav-link">
-                                    <i class="fa fa-arrow-left"></i> Previous
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
-                                    Next <i class="fa fa-arrow-right"></i>
-                                </a>
-                            </li>
                     </ul>
                 </div>
             </div>
@@ -102,7 +93,7 @@
 <h1 id="example">Example</h1>
 <p>In the previous sections, you have seen that our framework consists of APIs which you can use in the code as per your need. All you have to do is include these functions in your code.  So, whenever any IoT event occurs the user defined function attached to this event will be executed automatically without having the user call the function explicitly in main() or elsewhere.</p>
 <p>This section consists of an example code that uses our APIs. This example pushes a data to the google Spreadsheet , performs Over-the-Air Updates using encrypted firmware stored in a Github Repo .</p>
-<pre><code class="c">//------------------------------------------------------------------------------
+<pre><code class="language-c">//------------------------------------------------------------------------------
 #include &quot;ey_iot.h&quot;
 #include &quot;ey_iot_config.h&quot;
 
@@ -232,7 +223,6 @@ void my_task_sensor_data_logging(void *p){
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 </code></pre>
-
 <p>And below is the demo video that shows the whole working of the above code.</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ODZHQ3rvVj0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
             </div>
@@ -257,16 +247,13 @@ void my_task_sensor_data_logging(void *p){
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+                <p>From here you can search these documents. Enter your search terms below.</p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>

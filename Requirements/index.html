@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Configuring e-Yantra IoT Framework - e-Yantra IoT Framework</title>
+        <title>Tools Required - e-Yantra IoT Framework</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -36,8 +36,8 @@
                             <li class="navitem">
                                 <a href=".." class="nav-link">Introduction</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../Requirements/" class="nav-link">Tools Required</a>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Tools Required</a>
                             </li>
                             <li class="navitem">
                                 <a href="../APIs/" class="nav-link">APIs</a>
@@ -63,6 +63,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../APIs/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -81,7 +91,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#configuring-e-yantra-iot-framework" class="nav-link">Configuring e-Yantra IoT Framework</a>
+            <li class="nav-item" data-level="1"><a href="#tools-required" class="nav-link">Tools required</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -90,40 +100,44 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="configuring-e-yantra-iot-framework">Configuring e-Yantra IoT Framework</h1>
+<h1 id="tools-required">Tools required</h1>
+<p>Below is the list of required tools for this workshop and step-by-step process of how to use them.</p>
+<hr />
+<h4 id="note">NOTE:</h4>
 <ul>
-<li><code>ey_iot_config.h</code> file present in the framework is used to configure various services offered by the framework.</li>
-<li>Following is a sample of <code>ey_iot_config.h</code>. User can change it according to their usage.</li>
+<li>
+<p>Username or System name <strong>must not</strong> have space. For e.g., IIT Bombay is <strong>not</strong> allowed and IIT_Bombay is allowed.</p>
+</li>
+<li>
+<p>If the System name contains a space, then kindly create a new login account on the system <strong>OR</strong> install all the software in the drive apart from <strong>C</strong>, maybe <strong>D</strong> or <strong>E</strong>.</p>
+</li>
+<li>
+<p>System must have at least <strong>one</strong> drive of <em>min. 100 GB</em> should be available on system apart from <strong>C</strong> drive.</p>
+</li>
 </ul>
-<pre><code class="language-json">#ifndef __EY_IOT_CONFIG_H__
-#define __EY_IOT_CONFIG_H__
-
-//--------- Wi-Fi --------- 
-#define EY_CONFIG_WIFI_SSID         &quot;my-wifi-ssid&quot;
-#define EY_CONFIG_WIFI_PASS         &quot;my-wifi-password&quot;
-
-//--------- MQTT --------- 
-#define EY_CONFIG_MQTT_SERVER_URL   &quot;mqtt://broker.mqttdashboard.com&quot;
-#define EY_CONFIG_MQTT_SERVER_PORT  1883
-#define EY_SUB_TOPIC_LEN            100
-#define EY_SUB_DATA_LEN             100
-
-//--------- Encryption --------- 
-#define EY_ENCRYP_XOR_KEY           'e'
-
-//--------- NTP --------- 
-#define EY_NTP_SERVER               &quot;pool.ntp.org&quot;
-#define EY_NTP_TIMEZONE             &quot;UTC-5:30&quot;
-
-//--------- OTA --------- 
-#define EY_REMOTE_OTA_URL           &quot;https://raw.githubusercontent.com/username/reponame/master/hello-world.bin&quot;
-#define EY_REMOTE_OTA_TIMEOUT_MS    60000
-
-//--------- Database --------- 
-#define SPREADSHEET_ID              &quot;unique-spreadsheet-id&quot;
-
-#endif /* __EY_IOT_CONFIG_H__ */
-</code></pre></div>
+<hr />
+<p>Following software are required to be installed:</p>
+<h4 id="1-visual-studio-code">1. Visual Studio Code</h4>
+<ul>
+<li>Download <code>VSCodeSetup-x64-1.68.1.exe</code> from this <a href="https://code.visualstudio.com/sha/download?build=stable&os=win32-x64" target="_blank">link</a>. Install the software.</li>
+<li>If you already have VS Code installed on the system, make sure its updated to <code>v1.68.1</code>.</li>
+</ul>
+<h4 id="2-espressif-extension-in-vs-code">2. Espressif extension in VS Code</h4>
+<ul>
+<li>Follow this <a href='https://github.com/espressif/vscode-esp-idf-extension/blob/master/docs/tutorial/install.md' target="_blank">link</a>, it mentions step-by-step process to install and configure the extension successfully.</li>
+<li>You can skip the steps 5 and 6.</li>
+<li>In step 10<ul>
+<li>Select the ESP-IDF version as <code>v4.2.3 (release version)</code> from the options.</li>
+<li>Let the directory path for ESP-IDF container and ESP-IDF tools be as default, <strong>do not</strong> change it.</li>
+<li>Ensure that the path does not have a space, as mentioned in Note at the top. If it does have, then change the directory paths to some location in <strong>D</strong> or <strong>E</strong> drive.</li>
+</ul>
+</li>
+<li>Now, sit back and relax while the installation is proceeding. Based on the network speed, it might take around 30 to 40 mins for installation to complete.</li>
+<li>Skip the steps 12, 13 and 15. You should see the message as in step 14 if the installation was successful.</li>
+</ul>
+<h4 id="3-mqtt-x">3. MQTT X</h4>
+<p><code>MQTT X</code> is desktop MQTT client open sourced by EMQ. <a href="https://mqttx.app/" target="_blank">Click here</a> to download the <code>MQTT X</code>.</p>
+<p><strong>Great!</strong> We are now ready to use these tools for learning something new</p></div>
             </div>
         </div>
 

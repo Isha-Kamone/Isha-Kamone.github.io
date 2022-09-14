@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Configuring e-Yantra IoT Framework - e-Yantra IoT Framework</title>
+        <title>MQTT - e-Yantra IoT Framework</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                             <li class="navitem">
                                 <a href="../APIs/" class="nav-link">APIs</a>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Messaging Protocols <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
@@ -51,7 +51,7 @@
 </li>
                                     
 <li>
-    <a href="../MQTT/" class="dropdown-item">MQTT</a>
+    <a href="./" class="dropdown-item active">MQTT</a>
 </li>
                                 </ul>
                             </li>
@@ -63,6 +63,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../Spreadsheet/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -81,7 +91,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#configuring-e-yantra-iot-framework" class="nav-link">Configuring e-Yantra IoT Framework</a>
+            <li class="nav-item" data-level="2"><a href="#mqtt" class="nav-link">MQTT</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -90,11 +100,66 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="configuring-e-yantra-iot-framework">Configuring e-Yantra IoT Framework</h1>
-<ul>
-<li><code>ey_iot_config.h</code> file present in the framework is used to configure various services offered by the framework.</li>
-<li>Following is a sample of <code>ey_iot_config.h</code>. User can change it according to their usage.</li>
-</ul>
+<h2 id="mqtt">MQTT</h2>
+<p>Create a new project and add the below code to the <code>main.c</code> file.</p>
+<pre><code class="language-c">//------------------------------------------------------------------------------
+#include &quot;ey_iot.h&quot;
+#include &quot;ey_iot_config.h&quot;
+
+//------------------------------------------------------------------------------
+#define SUB_TOPIC   &quot;/tih/chat/group&quot;
+#define PUB_TOPIC   &quot;/tih/chat/my&quot;
+#define DELAY_SEC   60
+
+//------------------------------------------------------------------------------
+void init_callback(void);
+void my_wifi_start(void);
+void my_wifi_disconnect(void);
+void my_mqtt_rx(void);
+void my_mqtt_disconnect(void);
+
+//------------------------------------------------------------------------------
+void app_main(void){
+    init_callback();
+    ey_init_nvs();
+    ey_init_wifi_sta(EY_CONFIG_WIFI_SSID, EY_CONFIG_WIFI_PASS);
+    ey_mqtt_start();
+    ey_mqtt_subscribe(SUB_TOPIC, 0);
+}
+
+//------------------------------------------------------------------------------
+void init_callback(void){
+
+    ey_register_callback(EY_WIFI_EVENT_STA_START, my_wifi_start);
+    ey_register_callback(EY_WIFI_EVENT_STA_DISCONNECTED, my_wifi_disconnect);
+    ey_register_callback(EY_MQTT_EVENT_DATA_RX, my_mqtt_rx);
+}
+
+void my_wifi_start() { 
+    printf(&quot;USER: Wi-Fi Start\n&quot;);
+}
+
+void my_wifi_disconnect() { 
+    printf(&quot;USER: Wi-Fi Disconnect\n&quot;);
+    ey_wifi_auto_reconnect();
+}
+
+void my_mqtt_rx(){
+    printf(&quot;SUB_TOPIC: %s\n&quot;, ey_mqtt_sub_topic);
+    printf(&quot;SUB_DATA: %s\n&quot;, ey_mqtt_sub_data);
+
+    ey_mqtt_publish(PUB_TOPIC, &quot;Welcome Home!!&quot;, 0);
+    printf(&quot;PUB_DATA: %s\n&quot;, &quot;Sent message&quot;);
+}
+
+void my_mqtt_disconnect(){
+    printf(&quot;USER: MQTT Disconnect\n&quot;);
+    ey_wifi_auto_reconnect();
+}
+</code></pre>
+<p>Refer to the <code>APIs</code> section to know about the MQTT APIs used in the above code.</p>
+<p><br></p>
+<p>Copy and paste the below code in the <code>ey_iot_config.h</code>file:</p>
 <pre><code class="language-json">#ifndef __EY_IOT_CONFIG_H__
 #define __EY_IOT_CONFIG_H__
 
@@ -103,27 +168,46 @@
 #define EY_CONFIG_WIFI_PASS         &quot;my-wifi-password&quot;
 
 //--------- MQTT --------- 
-#define EY_CONFIG_MQTT_SERVER_URL   &quot;mqtt://broker.mqttdashboard.com&quot;
+#define EY_CONFIG_MQTT_SERVER_URL   &quot;mqtt://broker.emqx.io&quot;
 #define EY_CONFIG_MQTT_SERVER_PORT  1883
 #define EY_SUB_TOPIC_LEN            100
 #define EY_SUB_DATA_LEN             100
 
 //--------- Encryption --------- 
-#define EY_ENCRYP_XOR_KEY           'e'
+#define EY_ENCRYP_XOR_KEY   'e'
 
 //--------- NTP --------- 
-#define EY_NTP_SERVER               &quot;pool.ntp.org&quot;
-#define EY_NTP_TIMEZONE             &quot;UTC-5:30&quot;
-
-//--------- OTA --------- 
-#define EY_REMOTE_OTA_URL           &quot;https://raw.githubusercontent.com/username/reponame/master/hello-world.bin&quot;
-#define EY_REMOTE_OTA_TIMEOUT_MS    60000
+#define EY_NTP_SERVER       &quot;pool.ntp.org&quot;
+#define EY_NTP_TIMEZONE     &quot;UTC-5:30&quot;
 
 //--------- Database --------- 
 #define SPREADSHEET_ID              &quot;unique-spreadsheet-id&quot;
 
-#endif /* __EY_IOT_CONFIG_H__ */
-</code></pre></div>
+#endif 
+</code></pre>
+<ul>
+<li>
+<p>Build the project and flash the code on the ESP32 and open the serial monitor in VS Code by clicking on <code>ESP-IDF Monitor device</code> button.</p>
+</li>
+<li>
+<p>Open the <code>MQTT X</code> desktop MQTT client which you downloaded and installed earlier.</p>
+</li>
+<li>
+<p>Click on <code>New Connection</code>.</p>
+</li>
+<li>
+<p>Give name to the connection and in the host field select <code>mqtt://</code> and add the address of the broker link as <code>broker.emqx.io</code>. Make sure the port is <code>1883</code>. </p>
+</li>
+<li>
+<p>Click on <code>Connect</code>.</p>
+</li>
+<li>
+<p>Click on <code>New Subscription</code>, add the topic on which ESP32 is going to publish the data. Make sure the <code>QoS</code> is selected as 0. Click on Confirm.</p>
+</li>
+<li>
+<p>Add the topic on which ESP32 is subscribed in the field. Whatever message you publish on this topic, ESP32 will receive.</p>
+</li>
+</ul></div>
             </div>
         </div>
 

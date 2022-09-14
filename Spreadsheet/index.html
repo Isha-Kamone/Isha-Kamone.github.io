@@ -8,15 +8,15 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Setting up Google Spreadsheet - e-Yantra IoT Framework</title>
+        <title>HTTP - e-Yantra IoT Framework</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/font-awesome.min.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
 
         <script src="../js/jquery-1.10.2.min.js" defer></script>
         <script src="../js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script> 
     </head>
 
@@ -36,23 +36,24 @@
                             <li class="navitem">
                                 <a href=".." class="nav-link">Introduction</a>
                             </li>
-                            <li class="dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Guide <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    
-<li>
-    <a href="./" class="dropdown-item active">Setting up Google Spreadsheet</a>
-</li>
-                                </ul>
+                            <li class="navitem">
+                                <a href="../Requirements/" class="nav-link">Tools Required</a>
                             </li>
                             <li class="navitem">
                                 <a href="../APIs/" class="nav-link">APIs</a>
                             </li>
-                            <li class="navitem">
-                                <a href="../config/" class="nav-link">Configure</a>
-                            </li>
-                            <li class="navitem">
-                                <a href="../Example/" class="nav-link">Example Code</a>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Messaging Protocols <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">HTTP</a>
+</li>
+                                    
+<li>
+    <a href="../MQTT/" class="dropdown-item">MQTT</a>
+</li>
+                                </ul>
                             </li>
                         </ul>
 
@@ -63,12 +64,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href=".." class="nav-link">
+                                <a rel="prev" href="../APIs/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../APIs/" class="nav-link">
+                                <a rel="next" href="../MQTT/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -90,17 +91,25 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-level="1"><a href="#setting-up-google-spreadsheet" class="nav-link">Setting up Google Spreadsheet</a>
+            <li class="nav-item" data-level="1"><a href="#http" class="nav-link">HTTP</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-level="2"><a href="#changes-to-be-made-in-codegs" class="nav-link">Changes to be made in Code.gs:</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#changes-to-be-made-in-indexhtml" class="nav-link">Changes to be made in Index.html</a>
+            <li class="nav-item" data-level="2"><a href="#what-if-you-wanted-to-upload-more-than-one-sensor-readings-to-spreadsheet" class="nav-link">What if you wanted to upload more than one sensor readings to spreadsheet?</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-level="2"><a href="#what-if-you-wanted-to-upload-more-than-one-sensor-readings-to-spreadsheet" class="nav-link">What if you wanted to upload more than one sensor readings to spreadsheet?</a>
+            <li class="nav-item" data-level="2"><a href="#sending-data-from-esp32-to-database" class="nav-link">Sending data from ESP32 to database</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#configuring-e-yantra-iot-framework" class="nav-link">Configuring e-Yantra IoT Framework</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#flashing-the-code-on-esp32" class="nav-link">Flashing the code on ESP32</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -111,7 +120,8 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="setting-up-google-spreadsheet">Setting up Google Spreadsheet</h1>
+<h1 id="http">HTTP</h1>
+<p>In this section, we will be logging/storing dummy sensor data in the google spreadsheets and sending alert notification through gmail using HTTP messaging protocol.</p>
 <p>First of all, users need a google account in order to proceed. If you do not have it already, kindly create one.</p>
 <p>Open Google Sheets:  <a href="https://www.google.com/sheets/about/">Google Sheets</a></p>
 <p>Create a blank sheet and name it as per your choice. Here we have named it as  <strong>Sensor_1</strong> .  Note the difference between the complete spreadsheet name which is <strong>ey_IoT_googleDb</strong> in this case and individual sheet name which is <strong>Sensor_1</strong>.</p>
@@ -124,7 +134,7 @@
 <p>By default, it’ll open with a single Google Script file (<code>code.gs</code>) and a default code block, <code>myFunction()</code>:</p>
 <p>For this project, you will have two files: Code.gs and Index.html .</p>
 <p>Copy and paste below mentioned code in Code.gs file.</p>
-<pre><code class="javascript">function doGet(e){
+<pre><code class="language-javascript">function doGet(e){
   // open the spreadsheet
   var ss = SpreadsheetApp.getActive();
 
@@ -143,7 +153,8 @@
   var col = 0;
   var d = new Date();
 
-  for (i in headers){
+  for (i in headers)
+  {
 
     // loop through the headers and if a parameter name matches the header name insert the value
     if (headers[i] == &quot;Timestamp&quot;)
@@ -158,115 +169,46 @@
     // append data to the last row
     cell.offset(lastRow, col).setValue(val);
     col++;
-  }
+  }  
 
-  //Checks the last logged data in the sheet, sends email if data greater is than threshold
+    //Checks the last logged data in the sheet, sends email if data greater is than threshold
 
   var sh = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var lastRow = sh.getLastRow();
   var lastCol = sh.getLastColumn();
   var data = sh.getRange(lastRow, lastCol).getValue();
+
   if(data &gt; 100)     //set your threshold here
   {
-    var to = &quot;abc@gmail.com&quot;;   //write your email id here
-    var message = &quot;Warning! Temperature has crossed the threshold value. Right now, the temperature is &quot; + data + &quot; \n&quot; ; 
+    var sheet_e = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(&quot;Emails&quot;);
+    let startRow_e = 2; // First row of data to process
 
-    MailApp.sendEmail(to, &quot; alert! &quot;, message);
+    const dataRange_e = sheet_e.getRange(startRow_e, 1, sheet_e.getLastRow()-1, 2);
+    // Fetch values for each row in the Range.
+    const data_e = dataRange_e.getValues();
+    for (let row_e of data_e) 
+    {
+      const emailAddress = row_e[0]; // First column
+      Logger.log(emailAddress)
+      var message = &quot;Warning! Temperature has crossed the threshold value. Right now, the temperature is &quot; + data + &quot; \n&quot; ;
+      let subject = 'Sending emails from a Weather Monitoring System';
+      //Send emails to emailAddresses which are presents in First column
+      MailApp.sendEmail(emailAddress, subject, message);
+    }
   }
-  ////////////
-
-  return ContentService.createTextOutput('success');
 }
-
-// function to create menu
-function onOpen() {
-  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
-      .createMenu('Live plot') //Name of the created menu in the spreadsheet. 
-      .addItem('Chart', 'openDialog')
-      .addToUi();
-}
-// function that calls html file to display in dialog box
-function openDialog() {
-  var html = HtmlService.createHtmlOutputFromFile('Index') //HTML file name
-  .setWidth(1000) //you can change dimensions of dialog box from here
-  .setHeight(700)
-
-  SpreadsheetApp.getUi() // Or DocumentApp or SlidesApp or FormApp.
-      .showModalDialog(html, 'Chart');
-}
-
 </code></pre>
-
 <h2 id="changes-to-be-made-in-codegs">Changes to be made in Code.gs:</h2>
 <ul>
 <li>Change threshold value as per your requirement. </li>
-<li>Give the mail id on which you want to receive email.</li>
+<li>Create a sheet named "Emails" in the same spreadsheet and add the mail ids on which you want to send the email.</li>
 <li>The text message, which will be mailed to the specified mail id when threshold readings are violated, can also be altered as per user's requirement.  </li>
 </ul>
 <p><img alt="" src="../Images/code.png" /></p>
-<p>Now we will be creating a html file . To create a html file , from the script editor window itself, Go to </p>
-<p><em>File</em> -&gt; <em>New</em> -&gt;<em>HTML file</em> . </p>
-<p>Name that file as 'Index' , copy and paste the below mentioned code in that file .    </p>
-<pre><code class="html">
-&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Line Chart with Google Sheets&lt;/title&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;!-- load jQuery --&gt;
-    &lt;script src=&quot;https://code.jquery.com/jquery-3.1.1.min.js&quot;
-    integrity=&quot;sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=&quot;
-    crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
-    &lt;!-- load Highcharts, Highcharts-more, and modules --&gt;
-    &lt;script src=&quot;https://code.highcharts.com/highcharts.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://code.highcharts.com/highcharts-more.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://code.highcharts.com/modules/data.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://code.highcharts.com/modules/exporting.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://code.highcharts.com/modules/boost.js&quot;&gt;&lt;/script&gt;
-
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div id=&quot;container&quot; style=&quot;width:100%; height:600px;&quot;&gt;&lt;/div&gt;
-&lt;script&gt;
-  $(function() {
-Highcharts.chart('container', {
-
-      chart: {
-        zoomType: 'x'
-    },
-
-    title: {
-        text: 'Real Time Plot of Sensor values'
-    },
-
-    data: {
-
-        googleSpreadsheetKey: '1zZ****************************0Y', // add your google spreadsheet key here
-        enablePolling: true,
-        dataRefreshRate: 1
-    },
-
-});
-});
-&lt;/script&gt; 
-&lt;/body&gt;
-&lt;/html&gt;
-
-
-</code></pre>
-
-<h2 id="changes-to-be-made-in-indexhtml">Changes to be made in Index.html</h2>
-<ul>
-<li>Change <strong>googleSpreadsheetKey</strong></li>
-</ul>
-<p>Go to your spreadsheet, and check its URL, it would be something like</p>
-<p><code>https://docs.google.com/spreadsheets/d/{googleSpreadsheetKey}/edit#gid=0</code></p>
-<p>Extract <strong>googleSpreadsheetKey</strong> from URL and edit in <strong>Index.html</strong> .</p>
-<p><img alt="" src="../Images/index.png" /></p>
-<p>After all editing in the code,  Go to <em>Publish</em> -&gt; <em>Deploy as web app</em> . You will get dialog box as below.</p>
-<p>Make the app accessible to <em>Anyone</em> . Execute the app as <em>Me</em> and click on <em>Deploy</em>.</p>
-<p><img alt="" src="../Images/dbox.png" /></p>
+<p>After all editing in the code,  Go to <em>Deploy</em> -&gt; <em>New Deployment</em> . You will get dialog box as below.</p>
+<p><img alt="" src="../Images/d1.png" /></p>
+<p>Click on Settings button and select <code>Web app</code>. Make the app accessible to <em>Anyone</em> . Execute the app as <em>Me</em> and click on <em>Deploy</em>.</p>
+<p><img alt="" src="../Images/d2.png" /></p>
 <p>Then <em>Authorization required</em> dialog box will appear. Click on <em>Review Permissions</em> .</p>
 <p><img alt="" src="../Images/dbox1.png" /></p>
 <p>Choose your Google account.</p>
@@ -274,17 +216,15 @@ Highcharts.chart('container', {
 <p><img alt="" src="../Images/authorization.png" /></p>
 <p>Scroll down and click on <strong><em>Go to ey_IoT_script (unsafe)</em></strong> .</p>
 <p>Then click on <strong><em>Allow</em></strong> . You will get a dialog box like this below. </p>
-<p><img alt="" src="../Images/app.png" /></p>
+<p><img alt="" src="../Images/d3.png" /></p>
 <p>Copy the link that is provided to you, at this step , and click on <strong><em>OK</em></strong></p>
 <p>The link will look like this,</p>
 <pre><code>https://script.google.com/macros/s/{your-sheet-id}/exec
 </code></pre>
-
 <p>In the previous code, I mentioned about parameters. I am using the parameter <em>id</em> to differentiate between sheets. At the same time, if a parameter name matches with a header name, the script would be writing to that column. The header in my sheet, other than <em>Timestamp</em> is <em>value</em> . So would be the parameters.</p>
 <p>A sample URL containing the query parameters is,</p>
 <pre><code>https://script.google.com/macros/s/{your-sheet-id}/exec?id=Sensor_1&amp;value=100
 </code></pre>
-
 <p><strong>Note :</strong> Headers in the spreadsheet (<strong>value</strong> in this case) and the query parameters in your URL must be same. </p>
 <p>Also <em>id</em> is nothing but name of the sheet which in this case is Sensor_1.</p>
 <p>When the URL is pasted in the address bar of the browser and invoked,</p>
@@ -292,36 +232,20 @@ Highcharts.chart('container', {
 <p>Something happened. Maybe, check our sheet.</p>
 <p><img alt="" src="../Images/sheet.png" /></p>
 <p>Whoa! . You have successfully added a data in the sheet.</p>
-<p>Now if you observe, <em>Live plot</em> option is added in the menu bar. This is because when we run that above mentioned URL , google script that we wrote is executed. That script includes the code to fill data in the sheet and adds a menu in the menu bar in where you can see the live plot of your sensor values.</p>
-<p>Now before you observe the graph in the <em>Live plot</em> menu , you need to publish your Google spreadsheet as well.</p>
-<p>Change the sharing setting of your sheet. Change your settings to <strong><em>Anyone with the link</em></strong>.</p>
-<p>Now Go to <em>File</em> -&gt; <em>Publish to the web</em> . </p>
-<p><img alt="" src="../Images/publish.png" /></p>
-<p>Click on publish .</p>
-<p>So, now you can observe the real time plot of your sensor values in the <em>Live plot</em> menu. </p>
-<p><img alt="" src="../Images/Graph%201.png" /></p>
-<p>So just like above image a graph with the plotted values will be seen. X axis is the first column timestamp and Y axis are the sensor readings. Since only one column is there only one reading is present. </p>
-<p>You may have observed that the readings appear pretty squeezed between certain intervals. To make them visible distinctly we can zoom on the graph. To do that, drag the cursor across the region which you want to zoom and the same interval will be visible as shown in image below.</p>
-<p><img alt="" src="../Images/Graph%202.png" /></p>
-<p>Notice the difference between the 20 Jun region before and after. This process of zooming can be repeated several times until the single readings are distinctly visible. To view the normal graph again and to exit zoom press the 'Reset Zoom' button. </p>
-<p>The graph can be viewed in full screen, can be converted into various image formats or printed as well. For that press the menu on top right side and a dialog box as shown below will appear. User can select suitable option from that. </p>
-<p><img alt="" src="../Images/Graph%204.png" /></p>
 <h2 id="what-if-you-wanted-to-upload-more-than-one-sensor-readings-to-spreadsheet">What if you wanted to upload more than one sensor readings to spreadsheet?</h2>
 <p>In the tutorial above, you have come across to upload one sensor reading named <strong><em>'value'</em></strong> to the spreadsheet. Now if you wanted to upload more than one sensor readings to the spreadsheet, what would you do?</p>
 <p>Let's say you wanted to upload 3 sensor readings  named <strong><em>value1</em></strong> , <strong><em>value2</em></strong> , <strong><em>value3</em></strong>  to the spreadsheet. Just follow below mentioned steps.</p>
-<p><strong>Step 1 :*<em>   In the same spreadsheet, make 3 headers in your sheet other than </em></strong>Timestamp<strong><em> as </em></strong>value1<strong><em> , </em></strong>value2<strong><em> ,  </em></strong>value3***   .</p>
+<p><strong>Step 1 :</strong>   In the same spreadsheet, make 3 headers in your sheet other than <strong><em>Timestamp</em></strong> as <strong><em>value1</em></strong> , <strong><em>value2</em></strong> ,  <strong><em>value3</em></strong>   .</p>
 <p><img alt="" src="../Images/screen.png" /></p>
 <p><strong>Step 2 :</strong> Code.gs and Index.html will be same. All procedure will be same as we did above. </p>
 <p><strong>Step 3 :</strong>  Now recall the URL that you get when you published your script and deployed it as web app.</p>
 <p>It was something like this:-</p>
 <pre><code>https://script.google.com/macros/s/{your-sheet-id}/exec
 </code></pre>
-
 <p>In the code.gs , I mentioned about parameters. I am using the parameter <em>id</em> to differentiate between sheets. At the same time, if a parameter name matches with a header name, the script would be writing to that column. The header in my sheet, other than <strong><em>Timestamp</em></strong> is  <strong><em>value1</em></strong> , <strong><em>value2</em></strong> , <strong><em>value3</em></strong> . So would be the parameters.</p>
 <p>A sample URL containing the query parameters is,</p>
 <pre><code>https://script.google.com/macros/s/{your-sheet-id}/exec?id=Sensor_1&amp;value1=100&amp;value2=50&amp;value3=100
 </code></pre>
-
 <p><strong>Note :</strong> Headers in the spreadsheet (<strong>value1</strong> , <strong>value2</strong> , <strong>value3</strong> in this case) should be same as query parameters in your URL.</p>
 <p>When the URL is pasted in the address bar of the browser and invoked,</p>
 <p><img alt="" src="../Images/success1.png" /></p>
@@ -329,7 +253,128 @@ Highcharts.chart('container', {
 <p><img alt="" src="../Images/sheet1.png" /></p>
 <p>Whoa! . You have successfully uploaded 3 sensors readings on the sheet.</p>
 <p>So in this way, you can upload as many sensor readings you want to the spreadsheet by just changing the headers in the sheet and some query parameters in the URL.</p>
-<p>That's all for this section. Thank you!</p></div>
+<h2 id="sending-data-from-esp32-to-database">Sending data from ESP32 to database</h2>
+<h3 id="creating-new-project">Creating New Project</h3>
+<ol>
+<li>
+<p>Open VS Code and press <code>Ctrl+Shift+P</code>. Type <code>ESP-IDF: New Project</code> and click on enter.
+<img></p>
+</li>
+<li>
+<p>Give the project name in the project name field, browse the path of the project to the directory where you want to save the project, choose ESP-IDF board as Custom Board, choose ESP-IDF target as ESP32 module and click on choose template.
+<img></p>
+</li>
+<li>
+<p>Then click on last option <code>template-app</code>.
+<img></p>
+</li>
+<li>
+<p>Finally click on <code>Create project using template template-app</code>.
+<img></p>
+</li>
+<li>
+<p>This will open a project in a new window.</p>
+</li>
+<li>
+<p>Open the <code>main.c</code> file located inside the main directory. Copy and paste below mentioned code in file.</p>
+</li>
+</ol>
+<p>In the previous sections, you have seen that our framework consists of APIs which you can use in the code as per your need. All you have to do is include these functions in your code.  So, whenever any IoT event occurs the user defined function attached to this event will be executed automatically without having the user call the function explicitly in main() or elsewhere.</p>
+<pre><code class="language-C">//------------------------------------------------------------------------------
+#include &quot;ey_iot.c&quot;
+#include &quot;ey_iot_config.h&quot;
+
+//------------------------------------------------------------------------------
+void init_callback(void);
+void my_wifi_start(void);
+void my_wifi_disconnect(void);
+void my_task_sensor_data_logging(void *p);
+
+//------------------------------------------------------------------------------
+void app_main(void){
+
+    init_callback();
+    ey_init_nvs();
+    ey_init_wifi_sta(EY_CONFIG_WIFI_SSID, EY_CONFIG_WIFI_PASS);
+    xTaskCreate(&amp;my_task_sensor_data_logging, &quot;my_task_sensor_data_logging&quot;, 8120, NULL, 10, NULL);
+}
+
+//------------------------------------------------------------------------------
+void init_callback(void){
+
+    ey_register_callback(EY_WIFI_EVENT_STA_START, my_wifi_start);
+    ey_register_callback(EY_WIFI_EVENT_STA_DISCONNECTED, my_wifi_disconnect);
+}
+
+void my_wifi_start() { 
+    printf(&quot;USER: Wi-Fi Start\n&quot;);
+}
+
+void my_wifi_disconnect() { 
+    printf(&quot;USER: Wi-Fi Disconnect\n&quot;);
+    ey_wifi_auto_reconnect();
+}
+
+void my_task_sensor_data_logging(void *p){
+
+    char sensor_data = 99;
+
+    while(1){
+
+            // Print Sensor
+            printf(WHT &quot;Sensor: &quot; RESET); printf(YEL &quot;%d\n&quot; RESET,sensor_data);
+            ey_push_sensor_data(GOOGLE_SHEET, sensor_data);
+            printf(&quot;\n&quot;);
+
+            sensor_data--;
+            if(sensor_data == 0)
+            {
+                sensor_data = 99;
+            }
+    }
+}
+//------------------------------------------------------------------------------
+</code></pre>
+<h2 id="configuring-e-yantra-iot-framework">Configuring e-Yantra IoT Framework</h2>
+<ul>
+<li><code>ey_iot_config.h</code> file present in the framework is used to configure various services offered by the framework.</li>
+<li>Following is a sample of <code>ey_iot_config.h</code>. User can change it according to their usage.</li>
+</ul>
+<pre><code class="language-json">#ifndef __EY_IOT_CONFIG_H__
+#define __EY_IOT_CONFIG_H__
+
+//--------- Wi-Fi --------- 
+#define EY_CONFIG_WIFI_SSID         &quot;my-wifi-ssid&quot;
+#define EY_CONFIG_WIFI_PASS         &quot;my-wifi-password&quot;
+
+//--------- Encryption --------- 
+#define EY_ENCRYP_XOR_KEY           'e'
+
+//--------- NTP --------- 
+#define EY_NTP_SERVER               &quot;pool.ntp.org&quot;
+#define EY_NTP_TIMEZONE             &quot;UTC-5:30&quot;
+
+//--------- Database --------- 
+#define SPREADSHEET_ID              &quot;unique-spreadsheet-id&quot;
+
+#endif
+</code></pre>
+<p>Replace your <code>"my-wifi-ssid"</code> &amp; <code>"my-wifi-password"</code> with your wifi ssid and password and replace the Spreadsheet ID in place of <code>"unique-spreadsheet-id"</code> with the deployment ID.</p>
+<h2 id="flashing-the-code-on-esp32">Flashing the code on ESP32</h2>
+<ol>
+<li>
+<p>Click on <code>ESP-IDF Build Project</code> button located at the bottom of the VS Code to build the project.</p>
+</li>
+<li>
+<p>To Flash the code on ESP 32, click on the <code>ESP-IDF Flash device</code> button. </p>
+</li>
+</ol>
+<blockquote>
+<p><em><strong>Note :</strong> Make sure you press boot button on ESP32 while flashing the code on ESP32.</em></p>
+</blockquote>
+<ol>
+<li>Click on <code>ESP-IDF Monitor device</code> to see the output on the terminal. Simultaneously check the spreadsheet whether the data is getting logged in the sheeet or not and check your gmail whether you are getting alert notification or not depending upon the threshold you had put in the app script.</li>
+</ol></div>
             </div>
         </div>
 
@@ -352,16 +397,13 @@ Highcharts.chart('container', {
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             </div>
             <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
+                <p>From here you can search these documents. Enter your search terms below.</p>
                 <form>
                     <div class="form-group">
                         <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
                     </div>
                 </form>
-                <div id="mkdocs-search-results"></div>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
             </div>
             <div class="modal-footer">
             </div>
